@@ -12,18 +12,21 @@ type DB = Arc<Mutex<HashMap<String, Bytes>>>;
 async fn main() {
     let listener = TcpListener::bind("127.0.0.1:6379").await.unwrap();
 
+    let db = Arc::new(Mutex::new(HashMap::new()));
+    
     loop {
         let (socket, _) = listener.accept().await.unwrap();
+            let db = db.clone();
         let _handle = tokio::spawn(async move {
             // the idea is that when the tokio runtime started it already created a worker thread
             // and actions like this basically push those tasks onto 
             // this is a tokio task
-            process(socket).await;
+            process(socket, db).await;
         });
     }
 }
 
-async fn process(socket: TcpStream) {
+async fn process(socket: TcpStream, ) {
     use mini_redis::Command::{self, Get, Set};
     use std::collections::HashMap;
 
