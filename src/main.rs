@@ -19,6 +19,8 @@ async fn main() {
 }
 
 async fn process(socket: TcpStream) {
+    use mini_redis::Command::{self, Get, Set};
+    use std
     let mut connection = Connection::new(socket);
 
     if let Some(frame) = connection.read_frame().await.unwrap() {
