@@ -24,7 +24,7 @@ async fn process(socket: TcpStream) {
     use mini_redis::Command::{self, Get, Set};
     use std::collections::HashMap;
 
-    let mut db = HashMap::new::<String, Vec<u8>>();
+    let mut db = HashMap::<String, Vec<u8>>::new();
     
     let mut connection = Connection::new(socket);
 
@@ -44,6 +44,7 @@ async fn process(socket: TcpStream) {
             },
             cmd => panic!("unimplemented"),
         };
+        
         connection.write_frame(&response).await.unwrap();
     }
 }
