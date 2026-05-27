@@ -27,7 +27,14 @@ async fn process(socket: TcpStream) {
     let mut connection = Connection::new(socket);
 
     while let Some(frame) = connection.read_frame().await.unwrap() {
-        let response = Frame::Error("unimplemented".to_string());
+        let response = match Command::from_frame(frame).unwrap() {
+            Get(get) => todo!(),
+            Command::Publish(publish) => todo!(),
+            Set(set) => todo!(),
+            Command::Subscribe(subscribe) => todo!(),
+            Command::Unsubscribe(unsubscribe) => todo!(),
+            Command::Unknown(unknown) => todo!(),
+        };
         connection.write_frame(&response).await.unwrap();
     }
 }
