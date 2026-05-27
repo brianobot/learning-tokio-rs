@@ -64,4 +64,6 @@ async fn main() {
   ```
 
 - it is also important to not try to circumvent the use of Mutex across .await, cause if a mutex guard holds the lock to mutex
-  while the 
+  while the task is suspended at the await, another task might attempt to access that lock on the same thread, this would lead to a deadlock, because the task holding the lock is currently suspended.
+
+- 
