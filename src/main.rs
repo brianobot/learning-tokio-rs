@@ -49,7 +49,7 @@ async fn process(socket: TcpStream, db: DB) {
                 Frame::Simple("OK".to_string())
                 
             },
-            cmd => panic!("unimplemented"),
+            _cmd => panic!("unimplemented"),
         };
         
         connection.write_frame(&response).await.unwrap();
