@@ -16,5 +16,10 @@ async fn main() {
 async fn process(socket: TcpStream) {
     let mut connection = Connection::new(socket);
 
-    if let Some(frame) = connection.read
+    if let Some(frame) = connection.read_frame().await.unwrap() {
+        println!("GOT: {:?}", frame);
+
+        let response = Frame::Error("unimplemented".to_string());
+        connection.write_frame(&response).await.unwrap();
+    }
 }
