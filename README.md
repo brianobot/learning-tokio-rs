@@ -49,4 +49,18 @@ async fn main() {
 }
 ```
 
-- The same rule that applies to using none Send data in task applies to 
+- The same rule that applies to using none Send data in task applies to types like Mutex, you can use them in your task alright
+  but you can't use them across an await, one way to ensure this, is to scope them so that they are dropped before an await
+  ```rust 
+  // This works!
+  async fn increment_and_do_stuff(mutex: &Mutex<i32>) {
+      {
+          let mut lock: MutexGuard<i32> = mutex.lock().unwrap();
+          *lock += 1;
+      } // lock goes out of scope here
+  
+      do_something_async().await;
+  }
+  ```
+
+-
