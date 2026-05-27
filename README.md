@@ -48,3 +48,5 @@ async fn main() {
     });
 }
 ```
+
+- The same rule that applies to using none Send data in task applies to 
