@@ -1,3 +1,5 @@
+use std::panic;
+
 use mini_redis::{Connection, Frame};
 use tokio::net::{TcpListener, TcpStream};
 
@@ -28,12 +30,13 @@ async fn process(socket: TcpStream) {
 
     while let Some(frame) = connection.read_frame().await.unwrap() {
         let response = match Command::from_frame(frame).unwrap() {
-            Get(get) => todo!(),
-            Set(set) => todo!(),
-            Command::Publish(publish) => todo!(),
-            Command::Subscribe(subscribe) => todo!(),
-            Command::Unsubscribe(unsubscribe) => todo!(),
-            Command::Unknown(unknown) => todo!(),
+            Get(get) => {
+                if let Some(value) = db.get(get.key())
+            },
+            Set(set) => {
+                
+            },
+            cmd => panic!("unimplemented"),
         };
         connection.write_frame(&response).await.unwrap();
     }
