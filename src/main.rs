@@ -20,12 +20,13 @@ async fn main() {
 
 async fn process(socket: TcpStream) {
     use mini_redis::Command::{self, Get, Set};
-    use std
+    use std::collections::HashMap;
+
+    let mut db = HashMap::new();
+    
     let mut connection = Connection::new(socket);
 
-    if let Some(frame) = connection.read_frame().await.unwrap() {
-        println!("GOT: {:?}", frame);
-
+    while let Some(frame) = connection.read_frame().await.unwrap() {
         let response = Frame::Error("unimplemented".to_string());
         connection.write_frame(&response).await.unwrap();
     }
