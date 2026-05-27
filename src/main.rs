@@ -44,7 +44,8 @@ async fn process(socket: TcpStream, db: DB) {
             },
             Set(set) => {
                 println!("Settting Value to the db");
-                db.insert(set.key().to_string(), set.value().to_vec());
+                let mut db = db.lock().unwrap();
+                db.insert(set.key().to_string(), set.value().clone());
                 Frame::Simple("OK".to_string())
                 
             },
