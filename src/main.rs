@@ -26,9 +26,8 @@ async fn main() {
     }
 }
 
-async fn process(socket: TcpStream, ) {
+async fn process(socket: TcpStream, db: DB) {
     use mini_redis::Command::{self, Get, Set};
-    use std::collections::HashMap;
 
     let mut connection = Connection::new(socket);
 
