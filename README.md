@@ -12,5 +12,5 @@ Tokio is an asynchronous runtime for Rust Programming Language.
 [Here](https://tokio.rs/tokio/tutorial)
 
 ## Tips:
-- WHen deiciding to optimize compile times or the binary footprint, you can intentionally opt into specific features in the tokio crate
+- When deciding to optimize compile times or reduce the binary footprint, you can intentionally opt into specific features in the tokio crate
 - 
