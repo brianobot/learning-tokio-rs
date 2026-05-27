@@ -19,4 +19,5 @@ Tokio is an asynchronous runtime for Rust Programming Language.
 - Tasks: Are the unit of execution managed by the scheduler, task can be started with the `tokio::spawn` function
 - When task is spawned, it is passed to the worker thread which was created at the start of the program by the async runtime
 - The task might be executed on the same thread as it was spawned or in another thread and can be moved between threads
-- Tokio tasks are very lightweight, under the hood they require only a single allocation of 
+- Tokio tasks are very lightweight, under the hood they require only a single allocation of 64 bytes of memory
+- Applications should feel free to spawn thosands or even millions of tasks
