@@ -29,8 +29,8 @@ async fn process(socket: TcpStream) {
     while let Some(frame) = connection.read_frame().await.unwrap() {
         let response = match Command::from_frame(frame).unwrap() {
             Get(get) => todo!(),
-            Command::Publish(publish) => todo!(),
             Set(set) => todo!(),
+            Command::Publish(publish) => todo!(),
             Command::Subscribe(subscribe) => todo!(),
             Command::Unsubscribe(unsubscribe) => todo!(),
             Command::Unknown(unknown) => todo!(),
