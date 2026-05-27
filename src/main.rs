@@ -24,7 +24,7 @@ async fn process(socket: TcpStream) {
     use mini_redis::Command::{self, Get, Set};
     use std::collections::HashMap;
 
-    let mut db = HashMap::new();
+    let mut db = HashMap::new::<String, Vec<u8>>();
     
     let mut connection = Connection::new(socket);
 
@@ -38,7 +38,7 @@ async fn process(socket: TcpStream) {
                 }
             },
             Set(set) => {
-                db.insert(set.key().to_string(), set.value().to_string());
+                db.insert(set.key().to_string(), set.value().to_vec());
                 Frame::Simple("OK".to_string())
                 
             },
