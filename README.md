@@ -63,4 +63,5 @@ async fn main() {
   }
   ```
 
--
+- it is also important to not try to circumvent the use of Mutex across .await, cause if a mutex guard holds the lock to mutex
+  while the 
