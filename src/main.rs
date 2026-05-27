@@ -1,4 +1,5 @@
-use tokio::net::TcpListener;
+use mini_redis::{Connection, Frame};
+use tokio::net::{TcpListener, TcpStream};
 
 
 
@@ -8,5 +9,12 @@ async fn main() {
 
     loop {
         let (socket, _) = listener.accept().await.unwrap();
+        process(socket).await;
     }
+}
+
+async fn process(socket: TcpStream) {
+    let mut connection = Connection::new(socket);
+
+    if let Some(frame) = connection.read
 }
