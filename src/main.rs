@@ -34,6 +34,7 @@ async fn process(socket: TcpStream, db: DB) {
     while let Some(frame) = connection.read_frame().await.unwrap() {
         let response = match Command::from_frame(frame).unwrap() {
             Get(get) => {
+                let db = db.lock().unwrap();
                 if let Some(value) = db.get(get.key()) {
                     println!("Getting Value from the db");
                     Frame::Bulk(value.clone().into())
