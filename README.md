@@ -26,3 +26,25 @@ Tokio is an asynchronous runtime for Rust Programming Language.
 - Tasks are required to be static because tokio does not know how long the task would run and if it must keep the task for the duration of the program, the static lifetime is a guarantee of that reality
 - Tasks spawned by tokio::spawn must implement the Send trait, this allows tokio runtime to move the tasks between threads while they are suspended at an `.await`
 - About the point above, None Send types can be used in the task, but they must be used across awaits, so that when task is suspended it's Send
+
+Example below
+```rust
+use tokio; // 1.52.2; // 0.13.3
+use tokio::task::yield_now;
+use std::rc::Rc;
+
+#[tokio::main]
+async fn main() {
+    tokio::spawn(async move {
+        // in this example, Rc is not Send, but it does not exist across an await boundary
+        // so this would work fine
+       {
+           let rc = Rc::new(5);
+           println!("Rc: {rc:?}");
+       } 
+       
+       yield_now().await;
+       
+    });
+}
+```
