@@ -31,7 +31,11 @@ async fn process(socket: TcpStream) {
     while let Some(frame) = connection.read_frame().await.unwrap() {
         let response = match Command::from_frame(frame).unwrap() {
             Get(get) => {
-                if let Some(value) = db.get(get.key())
+                if let Some(value) = db.get(get.key()) {
+                    Frame::Bulk(get.value().into())
+                } else {
+                    Frame::Null
+                }
             },
             Set(set) => {
                 
