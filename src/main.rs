@@ -1,6 +1,9 @@
+use mini_redis::{client, Result};
 
 
-#[to]
-async fn main() {
-    println!("Hello, world!");
+#[tokio::main]
+async fn main() -> Result<()> {
+    let mut client = client::connect("127.0.0.1:")
+
+    Ok(())
 }
