@@ -9,7 +9,7 @@ async fn main() {
 
     loop {
         let (socket, _) = listener.accept().await.unwrap();
-        let handle = tokio::spawn(async move {
+        let _handle = tokio::spawn(async move {
             // the idea is that when the tokio runtime started it already created a worker thread
             // and actions like this basically push those tasks onto 
             // this is a tokio task
