@@ -9,7 +9,9 @@ async fn main() {
 
     loop {
         let (socket, _) = listener.accept().await.unwrap();
-        process(socket).await;
+        tokio::spawn(async move {
+            process(socket).await;
+        });
     }
 }
 
