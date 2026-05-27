@@ -22,3 +22,5 @@ Tokio is an asynchronous runtime for Rust Programming Language.
 - Tokio tasks are very lightweight, under the hood they require only a single allocation of 64 bytes of memory
 - Applications should feel free to spawn thosands or even millions of tasks
 - All spawned task must have a lifetime of 'static, if not the task would fail raise an error
+- if a piece of data must be accessible from more than one task concurrently, then it must be shared using synchronization primities such as Arc
+- 
