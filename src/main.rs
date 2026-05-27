@@ -32,12 +32,14 @@ async fn process(socket: TcpStream) {
         let response = match Command::from_frame(frame).unwrap() {
             Get(get) => {
                 if let Some(value) = db.get(get.key()) {
-                    Frame::Bulk(get.value().into())
+                    Frame::Bulk(value.clone().into())
                 } else {
                     Frame::Null
                 }
             },
             Set(set) => {
+                db.insert(set.key().to_string(), set.value().to_string());
+                Frame::Simple("OK".to_string())
                 
             },
             cmd => panic!("unimplemented"),
