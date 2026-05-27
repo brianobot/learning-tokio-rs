@@ -10,6 +10,7 @@ async fn main() {
     loop {
         let (socket, _) = listener.accept().await.unwrap();
         tokio::spawn(async move {
+            // the idea is that when the tokio runtime started it already created a 
             process(socket).await;
         });
     }
