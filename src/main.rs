@@ -1,8 +1,11 @@
-use std::panic;
+use std::{collections::HashMap, panic};
 
+use bytes::Bytes;
 use mini_redis::{Connection, Frame};
 use tokio::net::{TcpListener, TcpStream};
+use std::sync::{Arc, Mutex};
 
+type DB = Arc<Mutex<HashMap<String, Bytes>>>;
 
 
 #[tokio::main]
@@ -24,8 +27,6 @@ async fn process(socket: TcpStream) {
     use mini_redis::Command::{self, Get, Set};
     use std::collections::HashMap;
 
-    let mut db = HashMap::<String, Vec<u8>>::new();
-    
     let mut connection = Connection::new(socket);
 
     while let Some(frame) = connection.read_frame().await.unwrap() {
