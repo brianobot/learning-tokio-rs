@@ -23,8 +23,12 @@ async fn main() {
     // 
     // also notice that the channel capacity is set to 32, if messages are not processed as quickly as 
     // they are received, once it reaches 32, calling send().await would go to sleep until the channel is fred up
-    let (tx, rx) = mpsc::channel::<Command>(32);
+    let (tx, rx) = mpsc::channel(32);
 
     // sending from multiple tasks is done by cloning the sender
-    let tx2 = 
+    let tx2 = tx.clone();
+
+    tokio::spawn(async move {
+        tx.send("A").await.unwrap();
+    });
 }
