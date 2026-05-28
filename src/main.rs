@@ -17,5 +17,8 @@ enum Command {
 
 #[tokio::main]
 async fn main() {
+    // in this approach, we can create a task to manage central processing like a connection
+    // and the forward all the messages (data) needed to be processeed to that task
+    // the forwarders are the senders, the processing unit is the receiver
     let (tx, rx) = mpsc::channel::<Command>(32);
 }
