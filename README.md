@@ -69,4 +69,4 @@ async fn main() {
 - While using queuing in messaging passing, it is important to always use bounded queue to put a limit on the messages in the queue in order to not crash the system
 
 ## Async In Depth
-- Futures: 
+- Futures: Unlike in other languages a Rust future does not represent a computation happening in the background, it's the computation itself, the owner of the future is responsible 
