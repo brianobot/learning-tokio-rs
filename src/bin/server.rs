@@ -67,15 +67,19 @@ async fn process_v1(socket: TcpStream, db: DB) {
 }
 
 
-async fn process_v2(rx: Receiver<Command>) {
+async fn process_v2(mut rx: Receiver<Command>) {
     let mut client = client::connect("127.0.0.1:6379").await.unwrap();
 
     while let Some(cmd) =  rx.recv().await {
         use Command::*;
 
         match cmd {
-            Get { key } => client.get(&key).await,
-            Set { key, val } => client.set(&key, value).await,
-        };
+            Get { key } => {
+                client.get(&key).await;
+            },
+            Set { key, val } => {
+                client.set(&key, val).await;
+            }
+        }
     }
 }
