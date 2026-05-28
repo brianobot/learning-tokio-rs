@@ -78,7 +78,7 @@ async fn main() {
         println!("Got = {:?}", res);
     });
 
-    manager.
+    manager.await.unwrap();
 
 }
 
