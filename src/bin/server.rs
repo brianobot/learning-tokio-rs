@@ -60,7 +60,8 @@ async fn main() {
         };
         tx.send(cmd).await.unwrap();
 
-        let res = resp_tx.awa
+        let res = resp_rx.await;
+        println!("Got = {:?}", res);
     });
 
     let t2 = tokio::spawn(async move {
@@ -76,6 +77,8 @@ async fn main() {
         let res = resp_rx.await;
         println!("Got = {:?}", res);
     });
+
+    manager.
 
 }
 
@@ -115,11 +118,11 @@ async fn process_v2(mut rx: Receiver<Command>) {
         use Command::*;
 
         match cmd {
-            Get { key } => {
+            Get { key, resp } => {
                 println!("Processing Get! key = {key}");
                 client.get(&key).await.unwrap();
             }
-            Set { key, val } => {
+            Set { key, val, resp } => {
                 println!("Processing Set! key = {key}, val = {val:?}");
                 client.set(&key, val).await.unwrap();
             }
