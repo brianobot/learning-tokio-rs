@@ -17,5 +17,5 @@ enum Command {
 
 #[tokio::main]
 async fn main() {
-    let (tx, rx) = mpsc::channel(32);
+    let (tx, rx) = mpsc::channel::<Command>(32);
 }
