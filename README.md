@@ -80,4 +80,18 @@ async fn main() {
 
 - `tokio::join!` waits for multiple futures concurrently, this macros takes a list of task handles
 - Errors in Task spawned with `tokio::spawn` do not propgate to the main thread unless the JoinHandle is await and checked for errors
-- 
+- you can use `tokio::time::timeout` to enforce a deadline on a task execution duration
+  - ```rust
+    async fn slow_operation() -> String {
+        tokio::time::sleep(Duration::from_secs(10)).await;
+        "done".to_string()
+    }
+    
+    #[tokio::main]
+    async fn main() {
+        match timeout(Duration::from_secs(2), slow_operation()).await {
+            Ok(result) => println!("Completed: {}", result),
+            Err(_) => println!("Timed out after 2 seconds"),
+        }
+    }
+    ```
