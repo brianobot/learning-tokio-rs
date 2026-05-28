@@ -28,5 +28,15 @@ impl MiniTokio {
 
     fn spawn<F>(&mut self, future: F)
     where 
-        
+        F: Future<Output = ()> + Send + 'static,
+    {
+        self.tasks.push_back(Box::pin(future));
+    }
+
+    fn run(&mut self) {
+        let waker = task::noop_waker();
+        let mut cx = Context::from_waker(&waker);
+
+        while let Some(mut task)
+    }
 }
