@@ -42,11 +42,13 @@ async fn main() {
     let tx2 = tx.clone();
 
     let t1 = tokio::spawn(async move{
+        println!("About to send First Message");
         let cmd = Command::Get { key: "foo".to_string() };
         tx.send(cmd).await.unwrap();
     });
 
     let t2 = tokio::spawn(async move{
+        println!("About to send Second Message");
         let cmd = Command::Set { key: "foo".to_string(), val: "bar".into() };
         tx2.send(cmd).await.unwrap();
     });
@@ -106,4 +108,6 @@ async fn process_v2(mut rx: Receiver<Command>) {
             }
         }
     }
+
+    println!("Reached the End of the Task Manager");
 }
