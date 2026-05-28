@@ -7,7 +7,9 @@ use futures::task;
 
 
 fn main() {
-    let mut mini_tokio - MiniTokio::new();
+    let mut mini_tokio = MiniTokio::new();
+
+    mini_tokio.spawn()
 
     
 }
