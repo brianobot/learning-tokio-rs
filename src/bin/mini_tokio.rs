@@ -2,18 +2,22 @@ use std::collections::VecDeque;
 use std::future::Future;
 use std::pin::Pin;
 use std::task::{Context, Poll};
-use std::time::{Duration, Instant}
+use std::time::{Duration, Instant};
 use futures::task;
-use tokio::time::MissedTickBehavior::Delay;
 
 
 fn main() {
     let mut mini_tokio = MiniTokio::new();
 
     mini_tokio.spawn(async {
-        let when = Instant::now() + Duration::from_millis(10)
+        let when = Instant::now() + Duration::from_secs(2);
         let fut =  Delay { when, ping: 0 };
+
+        let out = fut.await;
+        assert_eq!(out, "done");
     });
+
+    mini_tokio.run();
 
     
 }
