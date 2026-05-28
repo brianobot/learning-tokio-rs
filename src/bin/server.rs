@@ -24,18 +24,20 @@ async fn main() {
 
     // let db = Arc::new(Mutex::new(HashMap::new()));
     let (tx, mut rx) = mpsc::channel(100);
-    
-    loop {
-        let (socket, _) = listener.accept().await.unwrap();
-        // let db = db.clone();
-        let _handle = tokio::spawn(
-            // process_v2(rx)
-            // the idea is that when the tokio runtime started it already created a worker thread
-            // and actions like this basically push those tasks onto 
-            // this is a tokio task
-            // process_v1(socket, db).await;
-        );
-    }
+
+    tokio::spawn(process_v2(rx));)
+    // loop {
+    //     let (socket, _) = listener.accept().await.unwrap();
+    //     // let db = db.clone();
+    //     // let _handle = tokio::spawn(
+    //     //     // process_v2(rx)
+    //     //     // the idea is that when the tokio runtime started it already created a worker thread
+    //     //     // and actions like this basically push those tasks onto 
+    //     //     // this is a tokio task
+    //     //     // process_v1(socket, db).await;
+    //     // );
+    //     // 
+    // }
 }
 
 async fn process_v1(socket: TcpStream, db: DB) {
