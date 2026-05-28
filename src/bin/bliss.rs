@@ -6,10 +6,12 @@ use std::{thread, time::{Duration, Instant}};
 async fn main() {
     let now = Instant::now();
     
-    perform_some_action().await;
-    perform_some_action().await;
-    perform_some_action().await;
-    perform_some_action().await;
+    tokio::join!(
+        perform_some_action().await,
+        perform_some_action().await,
+        perform_some_action().await,
+        perform_some_action().await,
+    );
 
     println!("Elapsed Time: {:?}s", now.elapsed().as_secs());
 }
