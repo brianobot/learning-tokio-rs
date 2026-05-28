@@ -10,13 +10,17 @@ type DB = Arc<Mutex<HashMap<String, Bytes>>>;
 #[derive(Debug)]
 enum Command {
     Get {
-        key: String
+        key: String,
+        resp: Responder<Option<Bytes>>
     },
     Set {
         key: String,
-        val: Bytes
+        val: Bytes,
+        resp: Responder<()>,
     }
 }
+
+type Responder<T> = oneshot::Sender<mini_redis::Result<T>>;
 
 #[tokio::main]
 async fn main() {
@@ -43,7 +47,10 @@ async fn main() {
 
     let t1 = tokio::spawn(async move{
         println!("About to send First Message");
-        let cmd = Command::Get { key: "foo".to_string() };
+        let cmd = Command::Get { 
+            key: "foo".to_string(),
+            
+        };
         tx.send(cmd).await.unwrap();
     });
 
