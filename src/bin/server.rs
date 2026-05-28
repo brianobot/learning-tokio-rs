@@ -124,7 +124,8 @@ async fn process_v2(mut rx: Receiver<Command>) {
             Get { key, resp } => {
                 println!("Processing Get! key = {key}");
                 let res = client.get(&key).await;
-                // calling resend on the 
+                // calling resend on the oneshot::Sender completes immediately and does not require await
+                // this is because send on oneshot would always succeed or fail immediaetly
                 let _ = resp.send(res);
                 
             }
