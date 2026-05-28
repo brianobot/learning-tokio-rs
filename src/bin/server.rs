@@ -52,6 +52,7 @@ async fn main() {
     let tx2 = tx.clone();
 
     let t1 = tokio::spawn(async move {
+        // for one shot messaging to get the response from the manager task
         let (resp_tx, resp_rx) = oneshot::channel();
         println!("About to send First Message");
         let cmd = Command::Get {
@@ -65,6 +66,7 @@ async fn main() {
     });
 
     let t2 = tokio::spawn(async move {
+        // for one shot messaging to get the response from the manager task
         let (resp_tx, resp_rx) = oneshot::channel();
         println!("About to send Second Message");
         let cmd = Command::Set {
