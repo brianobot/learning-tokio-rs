@@ -5,12 +5,11 @@ use std::{thread, time::{Duration, Instant}};
 #[tokio::main]
 async fn main() {
     let now = Instant::now();
+
+    let a = perform_some_action().await;
     
     tokio::join!(
-        perform_some_action().await,
-        perform_some_action().await,
-        perform_some_action().await,
-        perform_some_action().await,
+        a
     );
 
     println!("Elapsed Time: {:?}s", now.elapsed().as_secs());
