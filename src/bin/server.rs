@@ -47,10 +47,11 @@ async fn main() {
     });
 
     let t2 = tokio::spawn(async move{
-        let cmd = Command::Get { key: "foo".to_string() };
-        tx.send(cmd).await.unwrap();
+        let cmd = Command::Set { key: "foo".to_string(), val: "bar".into() };
+        tx2.send(cmd).await.unwrap();
     });
 }
+
 
 async fn process_v1(socket: TcpStream, db: DB) {
     use mini_redis::Command::{self, Get, Set};
@@ -91,10 +92,10 @@ async fn process_v2(mut rx: Receiver<Command>) {
 
         match cmd {
             Get { key } => {
-                client.get(&key).await;
+                client.get(&key).await.unwrap();
             },
             Set { key, val } => {
-                client.set(&key, val).await;
+                client.set(&key, val).await.unwrap();
             }
         }
     }
