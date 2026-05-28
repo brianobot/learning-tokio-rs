@@ -56,16 +56,15 @@ impl ArcWake for Task {
 
 impl MiniTokio {
     fn new() -> Self {
-        let (sender, scheduled) = mpsc::channel(1024)
-        Self { scheduled, sender
-        }
+        let (sender, scheduled) = mpsc::channel(1024);
+        Self { scheduled, sender }
     }
 
     fn spawn<F>(&mut self, future: F)
     where 
         F: Future<Output = ()> + Send + 'static,
     {
-        self.tasks.push_back(Box::pin(future));
+        Task::spawn(future, &self.sender)
     }
 
     fn run(&self) {
