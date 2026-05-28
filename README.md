@@ -78,6 +78,6 @@ async fn main() {
 ## Notes
 - You can also achieve concurrency with `tokio::select` macro, this takes multiple async computation and returns the first one that completes
 
-- `tokio::join!` waits for multiple futures concurrently
+- `tokio::join!` waits for multiple futures concurrently, this macros takes a list of task handles
 - Errors in Task spawned with `tokio::spawn` do not propgate to the main thread unless the JoinHandle is await and checked for errors
 - 
