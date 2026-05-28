@@ -39,7 +39,13 @@ struct TaskFuture {
 
 struct Task {
     task_future: Mutex<TaskFuture>,
-    
+    executor: mpsc::Sender<Arc<Task>>,   
+}
+
+impl Task {
+    fn schedule(self: &Arc<Self>) {
+        self.executor.send(self.clone());
+    }
 }
 
 impl MiniTokio {
