@@ -11,7 +11,8 @@ fn main() {
     let mut mini_tokio = MiniTokio::new();
 
     mini_tokio.spawn(async {
-        let when =  Delay { when, ping: 0 }
+        let when = Instant::now() + Duration::from_millis(10)
+        let fut =  Delay { when, ping: 0 };
     });
 
     
