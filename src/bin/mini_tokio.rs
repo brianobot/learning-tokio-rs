@@ -1,4 +1,3 @@
-use std::collections::VecDeque;
 use std::future::Future;
 use std::pin::Pin;
 use std::sync::Arc;
@@ -26,11 +25,6 @@ fn main() {
     
 }
 
-
-struct MiniTokio {
-    scheduled: mpsc::Receiver<Arc<Task>>,
-    sender: mpsc::Sender<Arc<Task>>
-}
 
 struct TaskFuture {
     future: Pin<Box<dyn Future<Output = ()> + Send>>,
@@ -93,6 +87,12 @@ impl ArcWake for Task {
     fn wake_by_ref(arc_self: &Arc<Self>) {
         arc_self.schedule();
     }
+}
+
+
+struct MiniTokio {
+    scheduled: mpsc::Receiver<Arc<Task>>,
+    sender: mpsc::Sender<Arc<Task>>
 }
 
 impl MiniTokio {
