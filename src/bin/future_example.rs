@@ -14,7 +14,11 @@ impl Future for Delay {
     fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         if Instant::now() >= self.when {
             println!("Hello World");
-            
+            Poll::Ready("done")
+        } else {
+            cx.waker().wake_by_ref();
+            println!("Waiting...");
+            Poll::Pending
         }
     }
 }
@@ -25,6 +29,6 @@ async fn main() {
     let future = Delay { when };
 
     let out = future.await;
-    assert!(out, "done");
+    assert_eq!(out, "done");
 }
 
