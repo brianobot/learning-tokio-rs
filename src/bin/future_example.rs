@@ -5,19 +5,21 @@ use std::time::{Duration, Instant};
 
 
 struct Delay {
-    when: Instant
+    when: Instant,
+    ping: u16
 }
 
 impl Future for Delay {
     type Output = &'static str;
 
-    fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
+    fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         if Instant::now() >= self.when {
             println!("Hello World");
             Poll::Ready("done")
         } else {
             cx.waker().wake_by_ref();
-            println!("Waiting...");
+            self.ping += 1;
+            println!("Waiting...{}", self.ping);
             Poll::Pending
         }
     }
@@ -26,7 +28,7 @@ impl Future for Delay {
 #[tokio::main]
 async fn main() {
     let when = Instant::now() + Duration::from_secs(2);
-    let future = Delay { when };
+    let future = Delay { when, ping: 0 };
 
     let out = future.await;
     assert_eq!(out, "done");
