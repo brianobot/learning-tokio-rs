@@ -71,7 +71,16 @@ impl Task {
         let waker = task::waker(self.clone());
         let mut cx = Context::from_waker(&waker);
 
-        let mut 
+        let mut task_future = self.task_future.try_lock().unwrap();
+
+        task_future.poll(&mut cx);
+    }
+
+    fn spawn<F>(future: F, sender: &mpsc::Sender<Arc<Task>>) 
+    where 
+        F: Future<Output = ()> + Send + 'static
+    {
+        
     }
 }
 
