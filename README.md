@@ -77,4 +77,5 @@ async fn main() {
 
 - You can also achieve concurrency with `tokio::select` macro, this takes multiple async computation and returns the first one that completes
 
+- `tokio::join!` waits for multiple futures concurrently
 - 
