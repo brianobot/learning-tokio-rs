@@ -120,11 +120,14 @@ async fn process_v2(mut rx: Receiver<Command>) {
         match cmd {
             Get { key, resp } => {
                 println!("Processing Get! key = {key}");
-                client.get(&key).await.unwrap();
+                let res = client.get(&key).await.unwrap();
+                let _ = resp.send(res);
+                
             }
             Set { key, val, resp } => {
                 println!("Processing Set! key = {key}, val = {val:?}");
-                client.set(&key, val).await.unwrap();
+                let res = client.set(&key, val).await.unwrap();
+                let _ = resp.send(res);
             }
         }
     }
