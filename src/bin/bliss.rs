@@ -21,7 +21,8 @@ async fn main() {
     let d = tokio::spawn({
         perform_some_action()
     });
-    
+
+    let (a, b, c, d) = tokio::join!(a, b, c, d);
     println!("Elapsed Time: {:?}s", now.elapsed().as_secs());
 }
 
