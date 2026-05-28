@@ -10,6 +10,8 @@ async fn main() {
     perform_some_action().await;
     perform_some_action().await;
     perform_some_action().await;
+
+    println!("Elapsed Time: {:?}s", now.elapsed().as_secs());
 }
 
 
