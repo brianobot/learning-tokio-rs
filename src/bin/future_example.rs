@@ -17,6 +17,7 @@ impl Future for Delay {
             println!("Hello World");
             Poll::Ready("done")
         } else {
+            // forgetting to wake the signal is a common source of bug for futures
             cx.waker().wake_by_ref();
             self.ping += 1;
             println!("Waiting...{}", self.ping);

@@ -2,6 +2,7 @@ use std::collections::VecDeque;
 use std::future::Future;
 use std::pin::Pin;
 use std::task::{Context, Poll};
+use std::thread;
 use std::time::{Duration, Instant};
 use futures::task;
 
@@ -68,7 +69,20 @@ impl Future for Delay {
             println!("Hello World");
             Poll::Ready("done")
         } else {
-            cx.waker().wake_by_ref();
+            let waker = cx.waker().clone();
+            let when = self.when;
+
+            thread::spawn(move || {
+               let now = Instant::now();
+              
+              if now < when {
+                  thread::sleep(when - now);
+              } 
+
+              waker.wake();
+            });
+
+            
             self.ping += 1;
             println!("Waiting...{}", self.ping);
             Poll::Pending
