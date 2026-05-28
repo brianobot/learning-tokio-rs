@@ -80,7 +80,12 @@ impl Task {
     where 
         F: Future<Output = ()> + Send + 'static
     {
-        
+        let task = Arc::new(Task {
+            task_future: Mutex::new(TaskFuture::new(future)),
+            executor: sender.clone(),
+        });
+
+        let _ = sender.send(task);
     }
 }
 
