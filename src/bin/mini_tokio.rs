@@ -1,10 +1,12 @@
 use std::collections::VecDeque;
 use std::future::Future;
 use std::pin::Pin;
+use std::sync::Arc;
 use std::task::{Context, Poll};
 use std::thread;
 use std::time::{Duration, Instant};
 use futures::task;
+use tokio::sync::mpsc;
 
 
 fn main() {
@@ -25,12 +27,17 @@ fn main() {
 
 
 struct MiniTokio {
-    scheduled: VecDeque<Task>
+    scheduled: mpsc::Receiver<Arc<Task>>,
+    sender: mpsc::Sender<Arc<Task>>
+}
+
+struct TaskFuture {
+    future: Pin<Box<dyn Future<Output = ()>>>
 }
 
 struct Task {
     
-};
+}
 
 impl MiniTokio {
     fn new() -> Self {
