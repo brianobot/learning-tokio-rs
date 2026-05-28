@@ -2,7 +2,7 @@ use std::{collections::HashMap, panic};
 
 use bytes::Bytes;
 use mini_redis::{Connection, Frame, client};
-use tokio::{net::{TcpListener, TcpStream}, sync::mpsc::{self, Receiver}};
+use tokio::{net::{TcpListener, TcpStream}, sync::mpsc::{self, Receiver}, time::Sleep};
 use std::sync::{Arc, Mutex};
 
 type DB = Arc<Mutex<HashMap<String, Bytes>>>;
@@ -50,6 +50,8 @@ async fn main() {
         let cmd = Command::Set { key: "foo".to_string(), val: "bar".into() };
         tx2.send(cmd).await.unwrap();
     });
+
+    thread::sl
 }
 
 
