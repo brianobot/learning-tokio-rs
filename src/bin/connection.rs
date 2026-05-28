@@ -1,5 +1,5 @@
 use bytes::BytesMut;
-use tokio::net::TcpStream;
+use tokio::{io::AsyncReadExt, net::TcpStream};
 use mini_redis::{Frame, Result};
 
 
@@ -17,6 +17,14 @@ impl Connection {
         loop {
             if let Some(frame) = self.parse_frame()? {
                 return Ok(Some(frame));
+            }
+
+            if 0 == self.stream.read_buf(&mut self.buffer).await? {
+                if self.buffer.is_empty() {
+                    return Ok(None);
+                } else {
+                    return Err("Connection reset by peer".into());
+                }
             }
         }
     }
