@@ -56,8 +56,8 @@ impl ArcWake for Task {
 
 impl MiniTokio {
     fn new() -> Self {
-        Self {
-            tasks: VecDeque::new()
+        let (sender, scheduled) = mpsc::channel(1024)
+        Self { scheduled, sender
         }
     }
 
