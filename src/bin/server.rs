@@ -25,7 +25,7 @@ async fn main() {
     // let db = Arc::new(Mutex::new(HashMap::new()));
     let (tx, rx) = mpsc::channel(100);
 
-    tokio::spawn(process_v2(rx));
+    let manager = tokio::spawn(process_v2(rx));
     // loop {
     //     let (socket, _) = listener.accept().await.unwrap();
     //     // let db = db.clone();
@@ -53,9 +53,9 @@ async fn main() {
         tx2.send(cmd).await.unwrap();
     });
 
-    println!("About to sleep");
-    thread::sleep(Duration::from_secs(100));
-    println!("Finished Sleeeping");
+    
+    t1.await.unwrap();
+    t2.await.unwrap();
     
 }
 
