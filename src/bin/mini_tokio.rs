@@ -37,6 +37,10 @@ impl MiniTokio {
         let waker = task::noop_waker();
         let mut cx = Context::from_waker(&waker);
 
-        while let Some(mut task)
+        while let Some(mut task) = self.tasks.pop_front() {
+            if task.as_mut().poll(&mut cx).is_pending() {
+                self.tasks.push_back(task);
+            }
+        }
     }
 }
