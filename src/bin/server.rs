@@ -40,6 +40,16 @@ async fn main() {
     // }
     // 
     let tx2 = tx.clone();
+
+    let t1 = tokio::spawn(async move{
+        let cmd = Command::Get { key: "foo".to_string() };
+        tx.send(cmd).await.unwrap();
+    });
+
+    let t2 = tokio::spawn(async move{
+        let cmd = Command::Get { key: "foo".to_string() };
+        tx.send(cmd).await.unwrap();
+    });
 }
 
 async fn process_v1(socket: TcpStream, db: DB) {
