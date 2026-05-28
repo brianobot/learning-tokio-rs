@@ -7,6 +7,7 @@ use std::thread;
 use std::time::{Duration, Instant};
 use futures::task;
 use tokio::sync::mpsc;
+use std::sync::Mutex;
 
 
 fn main() {
@@ -32,10 +33,12 @@ struct MiniTokio {
 }
 
 struct TaskFuture {
-    future: Pin<Box<dyn Future<Output = ()>>>
+    future: Pin<Box<dyn Future<Output = ()> + Send>>,
+    poll: Poll<()>,
 }
 
 struct Task {
+    task_future: Mutex<TaskFuture>,
     
 }
 
