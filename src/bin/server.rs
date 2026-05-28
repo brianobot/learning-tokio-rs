@@ -1,7 +1,7 @@
 use std::{collections::HashMap, panic};
 
 use bytes::Bytes;
-use mini_redis::{Connection, Frame};
+use mini_redis::{Connection, Frame, client};
 use tokio::net::{TcpListener, TcpStream};
 use std::sync::{Arc, Mutex};
 
@@ -58,5 +58,7 @@ async fn process_v1(socket: TcpStream, db: DB) {
 
 
 async fn process_v2() {
-    let 
+    let mut client = client::connect("127.0.0.1:6379").await.unwrap();
+
+    
 }
