@@ -59,6 +59,8 @@ async fn main() {
             resp: resp_tx,
         };
         tx.send(cmd).await.unwrap();
+
+        let res = resp_tx.awa
     });
 
     let t2 = tokio::spawn(async move {
@@ -70,11 +72,11 @@ async fn main() {
             resp: resp_tx
         };
         tx2.send(cmd).await.unwrap();
+
+        let res = resp_rx.await;
+        println!("Got = {:?}", res);
     });
 
-    t1.await.unwrap();
-    t2.await.unwrap();
-    manager.await.unwrap();
 }
 
 async fn process_v1(socket: TcpStream, db: DB) {
