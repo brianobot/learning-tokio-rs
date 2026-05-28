@@ -124,6 +124,7 @@ async fn process_v2(mut rx: Receiver<Command>) {
             Get { key, resp } => {
                 println!("Processing Get! key = {key}");
                 let res = client.get(&key).await;
+                // calling resend on the 
                 let _ = resp.send(res);
                 
             }
