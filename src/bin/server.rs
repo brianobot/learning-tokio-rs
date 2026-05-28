@@ -25,7 +25,7 @@ async fn main() {
     // let db = Arc::new(Mutex::new(HashMap::new()));
     let (tx, mut rx) = mpsc::channel(100);
 
-    tokio::spawn(process_v2(rx));)
+    tokio::spawn(process_v2(rx));
     // loop {
     //     let (socket, _) = listener.accept().await.unwrap();
     //     // let db = db.clone();
@@ -38,6 +38,8 @@ async fn main() {
     //     // );
     //     // 
     // }
+    // 
+    let tx2 = tx.clone();
 }
 
 async fn process_v1(socket: TcpStream, db: DB) {
