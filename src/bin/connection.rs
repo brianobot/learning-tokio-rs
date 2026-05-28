@@ -1,6 +1,7 @@
 use std::io::Cursor;
 
 use bytes::{Buf, BytesMut};
+use tokio::io::AsyncWriteExt;
 use tokio::{io::AsyncReadExt, net::TcpStream};
 use mini_redis::{Frame, Result};
 use mini_redis::frame::Error::Incomplete;
@@ -53,7 +54,38 @@ impl Connection {
     }
 
     pub async fn write_frame(&mut self, frame: Frame) -> Result<()> {
-        
+        match frame {
+            Frame::Simple(val) => {
+                self.stream.write_u8(b'+').await?;
+                self.stream.write_all(val.as_bytes()).await?;
+                self.stream.write_all(b"\r\n").await?;
+            }
+            Frame::Error(val) => {
+                self.stream.write_u8(b'-').await?;
+                self.stream.write_all(val.as_bytes()).await?;
+                self.stream.write_all(b"\r\n").await?;
+            }
+            Frame::Integer(val) => {
+                self.stream.write_u8(b':').await?;
+                self.write_decimal(*val).await?;
+            }
+            Frame::Null => {
+                self.stream.write_all(b"$-1\r\n").await?;
+            }
+            Frame::Bulk(val) => {
+                let len = val.len();
+    
+                self.stream.write_u8(b'$').await?;
+                self.write_decimal(len as u64).await?;
+                self.stream.write_all(val).await?;
+                self.stream.write_all(b"\r\n").await?;
+            }
+            Frame::Array(_val) => unimplemented!(),
+        }
+    
+        self.stream.flush().await;
+    
+        Ok(())
     }
 }
 
