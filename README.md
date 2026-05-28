@@ -73,3 +73,6 @@ async fn main() {
   - Unlike in other languages a Rust future does not represent a computation happening in the background, it's the computation itself, the owner of the future is responsible for advancing the computation by polling the future, this is done by calling the `Future::poll` method
   - Futures in rust are State machines
   - When implementing Future for a value, it's okay to wake the future more offten than needed, this would lead to a busy loop and wasted cpu cycles, but atleast the future would not hand indefinitely
+
+
+- You can also achieve concurrency with `tokio::select` macro, this takes multiple async computation and returns 
