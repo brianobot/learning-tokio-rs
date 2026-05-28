@@ -22,18 +22,18 @@ enum Command {
 async fn main() {
     let listener = TcpListener::bind("127.0.0.1:6379").await.unwrap();
 
-    let db = Arc::new(Mutex::new(HashMap::new()));
+    // let db = Arc::new(Mutex::new(HashMap::new()));
     let (tx, mut rx) = mpsc::channel(100);
     
     loop {
         let (socket, _) = listener.accept().await.unwrap();
-        let db = db.clone();
+        // let db = db.clone();
         let _handle = tokio::spawn(async move {
             // the idea is that when the tokio runtime started it already created a worker thread
             // and actions like this basically push those tasks onto 
             // this is a tokio task
             // process_v1(socket, db).await;
-            process_v2(rx)
+            process_v2(rx).await
         });
     }
 }
