@@ -21,12 +21,12 @@ async fn main() {
             // the idea is that when the tokio runtime started it already created a worker thread
             // and actions like this basically push those tasks onto 
             // this is a tokio task
-            process(socket, db).await;
+            process_v1(socket, db).await;
         });
     }
 }
 
-async fn process(socket: TcpStream, db: DB) {
+async fn process_v1(socket: TcpStream, db: DB) {
     use mini_redis::Command::{self, Get, Set};
 
     let mut connection = Connection::new(socket);
@@ -54,4 +54,9 @@ async fn process(socket: TcpStream, db: DB) {
         
         connection.write_frame(&response).await.unwrap();
     }
+}
+
+
+async fn process_v2() {
+    let 
 }
