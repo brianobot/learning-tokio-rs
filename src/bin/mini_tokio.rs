@@ -5,7 +5,7 @@ use std::sync::Arc;
 use std::task::{Context, Poll};
 use std::thread;
 use std::time::{Duration, Instant};
-use futures::task;
+use futures::task::{self, ArcWake};
 use tokio::sync::mpsc;
 use std::sync::Mutex;
 
@@ -45,6 +45,12 @@ struct Task {
 impl Task {
     fn schedule(self: &Arc<Self>) {
         self.executor.send(self.clone());
+    }
+}
+
+impl ArcWake for Task {
+    fn wake_by_ref(arc_self: &Arc<Self>) {
+        arc_self.schedule();
     }
 }
 
