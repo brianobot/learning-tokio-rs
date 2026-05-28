@@ -3,18 +3,6 @@ use bytes::Bytes;
 use tokio::sync::mpsc;
 
 
-
-#[derive(Debug)]
-enum Command {
-    Get {
-        key: String
-    },
-    Set {
-        key: String,
-        val: Bytes
-    }
-}
-
 #[tokio::main]
 async fn main() {
     // in this approach, we can create a task to manage central processing like a connection

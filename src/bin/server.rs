@@ -2,11 +2,21 @@ use std::{collections::HashMap, panic};
 
 use bytes::Bytes;
 use mini_redis::{Connection, Frame, client};
-use tokio::net::{TcpListener, TcpStream};
+use tokio::{net::{TcpListener, TcpStream}, sync::mpsc::Receiver};
 use std::sync::{Arc, Mutex};
 
 type DB = Arc<Mutex<HashMap<String, Bytes>>>;
 
+#[derive(Debug)]
+enum Command {
+    Get {
+        key: String
+    },
+    Set {
+        key: String,
+        val: Bytes
+    }
+}
 
 #[tokio::main]
 async fn main() {
@@ -57,8 +67,10 @@ async fn process_v1(socket: TcpStream, db: DB) {
 }
 
 
-async fn process_v2() {
+async fn process_v2(rx: Receiver<Command>) {
     let mut client = client::connect("127.0.0.1:6379").await.unwrap();
 
-    
+    while let Some(cmd) =  rx.recv().await {
+        
+    }
 }
