@@ -1,6 +1,6 @@
 use std::io::Cursor;
 
-use bytes::BytesMut;
+use bytes::{Buf, BytesMut};
 use tokio::{io::AsyncReadExt, net::TcpStream};
 use mini_redis::{Frame, Result};
 
@@ -19,7 +19,20 @@ impl Connection {
         let mut buf = Cursor::new(&self.buffer[..]);
 
         match Frame::check(&mut buf) {
-            
+            Ok(_) => {
+                let len = buf.position() as usize;
+
+                buf.set_position(0);
+
+                let frame = Frame::parse(&mut buf)?;
+
+                self.buffer.advance(len);
+
+                Ok(Some(frame))
+            },
+            Err(Inc) => {
+                
+            },
         }
     }   
     
