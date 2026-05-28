@@ -6,7 +6,7 @@ use std::time::{Duration, Instant};
 
 struct Delay {
     when: Instant,
-    ping: u16
+    ping: u32
 }
 
 impl Future for Delay {
