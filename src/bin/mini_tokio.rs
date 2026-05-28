@@ -17,4 +17,16 @@ struct MiniTokio {
     tasks: VecDeque<Task>
 }
 
-type Task = Pin<Box<dyn Future<>>>
+type Task = Pin<Box<dyn Future<Output = ()> + Send>>;
+
+impl MiniTokio {
+    fn new() -> Self {
+        Self {
+            tasks: VecDeque::new()
+        }
+    }
+
+    fn spawn<F>(&mut self, future: F)
+    where 
+        
+}
