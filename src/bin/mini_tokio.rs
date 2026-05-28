@@ -37,6 +37,26 @@ struct TaskFuture {
     poll: Poll<()>,
 }
 
+impl TaskFuture {
+    fn new(future: impl Future<Output = ()> + Send + 'static) -> TaskFuture {
+        TaskFuture {
+            future: Box::pin(future),
+            poll: Poll::Pending,
+        }
+    }
+
+    fn poll(&mut self, cx: &mut Context<'_>) {
+        // Spurious wake-ups are allowed, even after a future has                                  
+        // returned `Ready`. However, polling a future which has                                   
+        // already returned `Ready` is *not* allowed. For this                                     
+        // reason we need to check that the future is still pending                                
+        // before we call it. Failure to do so can lead to a panic.
+        if self.poll.is_pending() {
+            self.poll = self.future.as_mut().poll(cx);
+        }
+    }
+}
+
 struct Task {
     task_future: Mutex<TaskFuture>,
     executor: mpsc::Sender<Arc<Task>>,   
@@ -45,6 +65,13 @@ struct Task {
 impl Task {
     fn schedule(self: &Arc<Self>) {
         self.executor.send(self.clone());
+    }
+
+    fn poll(self: Arc<Self>) {
+        let waker = task::waker(self.clone());
+        let mut cx = Context::from_waker(&waker);
+
+        let mut 
     }
 }
 
