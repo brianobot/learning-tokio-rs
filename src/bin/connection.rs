@@ -3,6 +3,7 @@ use std::io::Cursor;
 use bytes::{Buf, BytesMut};
 use tokio::{io::AsyncReadExt, net::TcpStream};
 use mini_redis::{Frame, Result};
+use mini_redis::frame::Error::Incomplete;
 
 
 struct Connection {
@@ -30,9 +31,8 @@ impl Connection {
 
                 Ok(Some(frame))
             },
-            Err(Inc) => {
-                
-            },
+            Err(Incomplete) => Ok(None),
+            Err(e) => Err(e.into()),
         }
     }   
     
