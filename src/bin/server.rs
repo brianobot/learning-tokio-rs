@@ -2,7 +2,7 @@ use std::{collections::HashMap, panic};
 
 use bytes::Bytes;
 use mini_redis::{Connection, Frame, client};
-use tokio::{net::{TcpListener, TcpStream}, sync::mpsc::Receiver};
+use tokio::{net::{TcpListener, TcpStream}, sync::mpsc::{self, Receiver}};
 use std::sync::{Arc, Mutex};
 
 type DB = Arc<Mutex<HashMap<String, Bytes>>>;
@@ -23,7 +23,8 @@ async fn main() {
     let listener = TcpListener::bind("127.0.0.1:6379").await.unwrap();
 
     let db = Arc::new(Mutex::new(HashMap::new()));
-    let (tx, rx) = 
+    let (tx, mut rx) = mpsc::channel(100);
+    
     loop {
         let (socket, _) = listener.accept().await.unwrap();
         let db = db.clone();
