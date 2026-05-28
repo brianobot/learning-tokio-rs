@@ -1,4 +1,4 @@
-use std::{collections::HashMap, panic};
+use std::{collections::HashMap, panic, thread, time::Duration};
 
 use bytes::Bytes;
 use mini_redis::{Connection, Frame, client};
@@ -51,7 +51,10 @@ async fn main() {
         tx2.send(cmd).await.unwrap();
     });
 
-    thread::sl
+    println!("About to sleep");
+    thread::sleep(Duration::from_secs(100));
+    println!("Finished Sleeeping");
+    
 }
 
 
