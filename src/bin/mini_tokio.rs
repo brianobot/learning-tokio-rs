@@ -5,7 +5,7 @@ use std::task::{Context, Poll};
 use std::thread;
 use std::time::{Duration, Instant};
 use futures::task::{self, ArcWake};
-use tokio::sync::mpsc;
+use std::sync::mpsc;
 use std::sync::Mutex;
 
 
@@ -97,7 +97,7 @@ struct MiniTokio {
 
 impl MiniTokio {
     fn new() -> Self {
-        let (sender, scheduled) = mpsc::channel(1024);
+        let (sender, scheduled) = mpsc::channel();
         Self { scheduled, sender }
     }
 
