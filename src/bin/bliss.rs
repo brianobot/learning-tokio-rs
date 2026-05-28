@@ -6,12 +6,22 @@ use std::{thread, time::{Duration, Instant}};
 async fn main() {
     let now = Instant::now();
 
-    let a = perform_some_action().await;
-    
-    tokio::join!(
-        a
-    );
+    let a = tokio::spawn({
+        perform_some_action()
+    });
 
+    let b = tokio::spawn({
+        perform_some_action()
+    });
+
+    let c = tokio::spawn({
+        perform_some_action()
+    });
+
+    let d = tokio::spawn({
+        perform_some_action()
+    });
+    
     println!("Elapsed Time: {:?}s", now.elapsed().as_secs());
 }
 
