@@ -2,7 +2,7 @@ use std::{collections::HashMap, panic, thread, time::Duration};
 
 use bytes::Bytes;
 use mini_redis::{Connection, Frame, client};
-use tokio::{net::{TcpListener, TcpStream}, sync::mpsc::{self, Receiver}, time::Sleep};
+use tokio::{net::{TcpListener, TcpStream}, sync::{mpsc::{self, Receiver}, oneshot}, time::Sleep};
 use std::sync::{Arc, Mutex};
 
 type DB = Arc<Mutex<HashMap<String, Bytes>>>;
@@ -20,11 +20,11 @@ enum Command {
 
 #[tokio::main]
 async fn main() {
-    let listener = TcpListener::bind("127.0.0.1:6379").await.unwrap();
-
+    // let listener = TcpListener::bind("127.0.0.1:6379").await.unwrap();
     // let db = Arc::new(Mutex::new(HashMap::new()));
     let (tx, rx) = mpsc::channel(100);
-
+    let (resp_tx, resp_rx) = oneshot::channel();
+    
     let manager = tokio::spawn(process_v2(rx));
     // loop {
     //     let (socket, _) = listener.accept().await.unwrap();
