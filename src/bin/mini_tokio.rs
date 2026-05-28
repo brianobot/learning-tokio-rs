@@ -13,4 +13,8 @@ fn main() {
 }
 
 
-struct Mini
+struct MiniTokio {
+    tasks: VecDeque<Task>
+}
+
+type Task = Pin<Box<dyn Future<>>>
