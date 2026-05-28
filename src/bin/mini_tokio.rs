@@ -25,10 +25,12 @@ fn main() {
 
 
 struct MiniTokio {
-    tasks: VecDeque<Task>
+    scheduled: VecDeque<Task>
 }
 
-type Task = Pin<Box<dyn Future<Output = ()> + Send>>;
+struct Task {
+    
+};
 
 impl MiniTokio {
     fn new() -> Self {
