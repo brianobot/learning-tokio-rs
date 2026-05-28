@@ -111,6 +111,7 @@ async fn process_v1(socket: TcpStream, db: DB) {
     }
 }
 
+
 async fn process_v2(mut rx: Receiver<Command>) {
     let mut client = client::connect("127.0.0.1:6379").await.unwrap();
 
