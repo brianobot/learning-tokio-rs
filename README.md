@@ -75,7 +75,9 @@ async fn main() {
   - When implementing Future for a value, it's okay to wake the future more offten than needed, this would lead to a busy loop and wasted cpu cycles, but atleast the future would not hand indefinitely
 
 
+## Notes
 - You can also achieve concurrency with `tokio::select` macro, this takes multiple async computation and returns the first one that completes
 
 - `tokio::join!` waits for multiple futures concurrently
+- Errors in Task spawned with `tokio::spawn` do not propgate to the main thread unless the JoinHandle is await and checked for errors
 - 
