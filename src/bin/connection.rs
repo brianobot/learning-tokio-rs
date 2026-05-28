@@ -9,9 +9,16 @@ struct Connection {
 }
 
 impl Connection {
-    pub fn new()
+    pub fn new(stream: TcpStream) -> Connection {
+        Connection { stream, buffer: BytesMut::with_capacity(4096) }
+    }
+    
     pub async fn read_frame(&mut self) -> Result<Option<Frame>> {
-        
+        loop {
+            if let Some(frame) = self.parse_frame()? {
+                return Ok(Some(frame));
+            }
+        }
     }
 
     pub async fn write_frame(&mut self, frame: Frame) -> Result<()> {
