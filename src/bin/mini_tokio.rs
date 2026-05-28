@@ -58,7 +58,7 @@ struct Task {
 
 impl Task {
     fn schedule(self: &Arc<Self>) {
-        self.executor.send(self.clone());
+        let _ = self.executor.send(self.clone());
     }
 
     fn poll(self: Arc<Self>) {
