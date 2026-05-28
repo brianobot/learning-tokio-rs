@@ -31,4 +31,13 @@ async fn main() {
     tokio::spawn(async move {
         tx.send("A").await.unwrap();
     });
+
+    tokio::spawn(async move {
+        tx2.send("B").await.unwrap();
+    });
+
+    while let Some(message) = rx.recv().await {
+        println!("Message: {message}");
+    }
+    
 }
