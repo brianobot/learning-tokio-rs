@@ -101,4 +101,5 @@ In order to access advance runtime metrics for tokio, you must enable unstable f
 see example of using metrics [here](src/bin/metrics.rs)
 
 the metrics include
-- `num_`
+- `num_alive_tasks()` -> usize: Returns the current number of alive tasks in the runtime. 
+- `num_workers()` -> usize: 
