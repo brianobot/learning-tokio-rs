@@ -17,5 +17,5 @@ async fn main() {
     let n = metrics.num_alive_tasks();
     println!("{n} Tasks are alive");
 
-    metrics.num_workers()
+    metrics
 }
