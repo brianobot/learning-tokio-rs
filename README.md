@@ -103,4 +103,5 @@ see example of using metrics [here](src/bin/metrics.rs)
 the metrics include
 - `num_alive_tasks()` -> usize: Returns the current number of alive tasks in the runtime. 
 - `num_workers()` -> usize: Returns the number of worker threads used by the runtime.
-- 
+- `global_queue_depth` -> usize: Returns the number of tasks currently scheduled in the runtime's
+- `num_blocking_threads` -> usize: Returns the number of additional threads spawned by the runtime
