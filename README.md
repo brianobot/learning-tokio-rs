@@ -9,7 +9,7 @@ Tokio is an asynchronous runtime for Rust Programming Language.
 
 
 # Advantages:
-[Here](https://tokio.rs/tokio/tutorial)
+Read [Here](https://tokio.rs/tokio/tutorial)
 
 ## Tips:
 - When deciding to optimize compile times or reduce the binary footprint, you can intentionally opt into specific features in the tokio crate
@@ -99,3 +99,6 @@ async fn main() {
 ## Observablity in Tokio
 In order to access advance runtime metrics for tokio, you must enable unstable feature in tokio
 see example of using metrics [here](src/bin/metrics.rs)
+
+the metrics include
+- `num_`
