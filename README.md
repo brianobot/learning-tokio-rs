@@ -98,3 +98,4 @@ async fn main() {
 
 ## Observablity in Tokio
 In order to access advance runtime metrics for tokio, you must enable unstable feature in tokio
+see example of using metrics [here](src/bin/metrics.rs)

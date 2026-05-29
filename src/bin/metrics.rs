@@ -7,8 +7,8 @@ async fn main() {
     tokio::spawn(async {
         let mut init = 0.0;
         loop {
-            init += 1.5;
-            if init % 45.0 == 0.0 {
+            init += 0.0000000005;
+            if init % 99.0 == 0.0 {
                 println!("Running {init}");
             }
         }
