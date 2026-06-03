@@ -68,10 +68,9 @@ async fn main() {
 - it is also important to not try to circumvent the use of Mutex across .await, cause if a mutex guard holds the lock to mutex
   while the task is suspended at the await, another task might attempt to access that lock on the same thread, this would lead to a deadlock, because the task holding the lock is currently suspended.
 
-- While using queuing in messaging passing, it is important to always use bounded queue to put a limit on the messages in the queue in order to not crash the system
+- While using queuing in messaging passing, it is important to always use bounded queue to put a limit on the messages in the queue in order to not crash the system.
 
-- when using `tokio::task::spawn_block` tokio uses a threadpool specially dedicated to running blocking task, the upper limit of the count of threads in this pool is currently 500. Note this thread pool is not suited for Expensive CPU bound task, since there are more threads here than CPUs, it's very easy to suffocate the CPU asap
-
+- when using `tokio::task::spawn_block` tokio uses a threadpool specially dedicated to running blocking task, the upper limit of the count of threads in this pool is currently 500. Note this thread pool is not suited for Expensive CPU bound task, since there are more threads here than CPUs, it's very easy to suffocate the CPU asap.
 
 
 ## Async In Depth
