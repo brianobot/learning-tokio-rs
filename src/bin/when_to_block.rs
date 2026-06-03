@@ -9,5 +9,6 @@ async fn main() {
         std::thread::sleep(Duration::from_secs(10));
     });
 
+    println!("Inside the Main");
     blocking_handle.await.unwrap()
 }
