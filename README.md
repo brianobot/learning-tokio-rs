@@ -70,6 +70,8 @@ async fn main() {
 
 - While using queuing in messaging passing, it is important to always use bounded queue to put a limit on the messages in the queue in order to not crash the system
 
+- when using `tokio::task::spawn_block` tokio uses a threadpool specially dedicated to running blocking task, the 
+
 ## Async In Depth
 - Futures: 
   - Unlike in other languages a Rust future does not represent a computation happening in the background, it's the computation itself, the owner of the future is responsible for advancing the computation by polling the future, this is done by calling the `Future::poll` method
