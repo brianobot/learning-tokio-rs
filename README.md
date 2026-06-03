@@ -13,6 +13,7 @@ Read [Here](https://tokio.rs/tokio/tutorial)
 
 ## Tips:
 - When deciding to optimize compile times or reduce the binary footprint, you can intentionally opt into specific features in the tokio crate
+- By using tokio::join! macro all the futures 
 
 
 ## Notes
