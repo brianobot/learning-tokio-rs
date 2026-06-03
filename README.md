@@ -13,7 +13,7 @@ Read [Here](https://tokio.rs/tokio/tutorial)
 
 ## Tips:
 - When deciding to optimize compile times or reduce the binary footprint, you can intentionally opt into specific features in the tokio crate
-- By using `tokio::join!` macro all the futures passed to it are guaranteed to run on the same thread, this is different when using
+- By using `tokio::join!` macro all the futures passed to it are guaranteed to run on the same thread, this is different when using `tokio::spawn` which would run each task in it's a multithread architecture
 
 
 ## Notes
