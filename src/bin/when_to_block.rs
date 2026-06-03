@@ -2,5 +2,9 @@
 
 #[tokio::main]
 async fn main() {
-    tokio::task::spawn_blocking(f)
+    let blocking_handle = tokio::task::spawn_blocking(async move {
+        
+    });
+
+    block
 }
