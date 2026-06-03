@@ -14,7 +14,7 @@ Read [Here](https://tokio.rs/tokio/tutorial)
 ## Tips:
 - When deciding to optimize compile times or reduce the binary footprint, you can intentionally opt into specific features in the tokio crate
 - By using `tokio::join!` macro all the futures passed to it are guaranteed to run on the same thread, this is different when using `tokio::spawn` which would run each task in it's a multithread runtime environment
-- A rule of time when running async code is, t
+- A rule of time when running async code is, async tasks should not take more than 10 - 100 microseconds between awaits, this way you give the runtime enough time 
 
 
 ## Notes
