@@ -70,7 +70,7 @@ async fn main() {
 
 - While using queuing in messaging passing, it is important to always use bounded queue to put a limit on the messages in the queue in order to not crash the system
 
-- when using `tokio::task::spawn_block` tokio uses a threadpool specially dedicated to running blocking task, the 
+- when using `tokio::task::spawn_block` tokio uses a threadpool specially dedicated to running blocking task, the upper limit of the count of threads in this pool is currently 500. Note this thread pool is not suited for 
 
 ## Async In Depth
 - Futures: 
