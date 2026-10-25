@@ -116,8 +116,8 @@ the metrics include
 
 
 
-## The Tokio Architecture 
-- **Task**: 
+## The Tokio Architecture Components
+- <a id="tasks"> **Task**: </a>
   - A task is tokio unit of work. 
   - the Runtime tracks each one from creation until completion, 
   - tasks are smaller than OS threads ~64bytes.
@@ -130,7 +130,6 @@ the metrics include
 
 - **Worker Pool**
   - The tokio runtime creates a pool of worker threads and every worker thread has it own [local queue](#local-queues)
-  - 
 
 - **Local Queue** : <a id="local-queues"></a>
   - there are the queues that hold task for a particular worker thread
@@ -146,3 +145,15 @@ the metrics include
   - this is the bridge between a task and the operating system
   - when a task needs to wait for an IO input it notifies the reactor, the reactor register that interest and pack the task until the OS notifies the reactor of the availability of the IO input.
   - The reactor is built ontop of MIO
+
+## Tokio Features
+- **tokio::sync**: 
+  - This provide functionalities for synchronization and communication of data across concurrent tasks
+  - it provides async counterparts to the synchronization types in the standard library
+  - it provides other types for cross tasks communication likes channels
+
+- **tokio::net**:
+  - provides low level network primitives for working with Tcp and Udp sockets asynchronously
+
+- **tokio::task**:
+  - this provides the async green threads, the task references [here](#tasks) 
