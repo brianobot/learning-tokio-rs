@@ -113,3 +113,47 @@ the metrics include
 - `num_idle_blocking_threads` -> usize: Returns the number of idle threads, which have spawned by the runtime for spanw_blockings calls
 - `worker_thread_id` -> Option<ThreadId>: Returns the thread id of the given worker thread
  and lots more
+
+
+
+## The Tokio Architecture Components
+- <a id="tasks"> **Task**: </a>
+  - A task is tokio unit of work. 
+  - the Runtime tracks each one from creation until completion, 
+  - tasks are smaller than OS threads ~64bytes.
+  - A single process can have million of tasks
+
+- **Scheduler & Executor**: 
+  - The Scheduler is the task dispatcher, it decides which task runs on whic thread
+  - The Executor execute tasks scheduled by the scheduler 
+  - When the scheduler runs out of tasks to schedule, it steals tasks from busy queues and give them to ideal queues, this only happens when both the [local](#local-queues) and the [global queue](#global-queues) are empty.
+
+- **Worker Pool**
+  - The tokio runtime creates a pool of worker threads and every worker thread has it own [local queue](#local-queues)
+
+- **Local Queue** : <a id="local-queues"></a>
+  - there are the queues that hold task for a particular worker thread
+  - only the worker thread can read from it
+  - this is implemented with a ring buffer with around 256 slots to fit into CPU cache
+
+
+- **Global Queue**: <a id="global-queues"></a>
+  - One single queue shared globally across every worker thread
+  - it is meant to absorb overflow when a worker queue fills up
+
+- **Reactor or IO Driver**:
+  - this is the bridge between a task and the operating system
+  - when a task needs to wait for an IO input it notifies the reactor, the reactor register that interest and pack the task until the OS notifies the reactor of the availability of the IO input.
+  - The reactor is built ontop of MIO
+
+## Tokio Features
+- **tokio::sync**: 
+  - This provide functionalities for synchronization and communication of data across concurrent tasks
+  - it provides async counterparts to the synchronization types in the standard library
+  - it provides other types for cross tasks communication likes channels
+
+- **tokio::net**:
+  - provides low level network primitives for working with Tcp and Udp sockets asynchronously
+
+- **tokio::task**:
+  - this provides the async green threads, the task references [here](#tasks) 
