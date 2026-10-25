@@ -117,7 +117,7 @@ the metrics include
 
 
 ## The Tokio Architecture Components
-- <a id="tasks"> **Task**: </a>
+- **Task**: <a id="tasks"></a>
   - A task is tokio unit of work. 
   - the Runtime tracks each one from creation until completion, 
   - tasks are smaller than OS threads ~64bytes.
@@ -157,3 +157,17 @@ the metrics include
 
 - **tokio::task**:
   - this provides the async green threads, the task references [here](#tasks) 
+
+- **tokio::fs**:
+  - this provides the async filesysyem functionalities, reading, writing files
+
+- **tokio::process**:
+  - provides functionalities for async process management, this is similar to functionality to subprocess in python but there is a big async part for this.
+
+- **tokio::signal**:
+  - provides async handling of OS signals
+
+- **tokio::time**:
+  - provides async api for working with time, delaying execution, timeouts and scheduling periodic tasks
+
+
